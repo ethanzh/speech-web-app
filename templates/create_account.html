@@ -1,0 +1,46 @@
+<html>
+    <head>
+        <title>Speech Collection - Create Account</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+    </head>
+    <body>
+        <h1 class="login-title">Create Account</h1>
+        <div class="login">
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
+            <ul>
+                {% for message in messages %}
+                <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+            {% endwith %}
+            <form action="" method="post" novalidate>
+                {{ form.hidden_tag() }}
+                <p>
+                    {{ form.email.label }}<br>
+                    {{ form.email(size=32) }}
+                </p>
+                <p>
+                    {{ form.password.label }}<br>
+                    {{ form.password(size=32) }}
+                </p>
+                <p>
+                    {{ form.confirm_password.label }}<br>
+                    {{ form.confirm_password(size=32) }}
+                </p>
+                <p>
+                    {{ form.gender.label }}<br>
+                    {{ form.gender() }}
+                </p>
+                <p>
+                    {{ form.age_range.label }}<br>
+                    {{ form.age_range() }}
+                </p>
+                <p>{{ form.submit() }}</p>
+
+                <a class="backlink" href='/login'>Already have an account? Login</a>
+            </form>
+        </div>
+    </body>
+</html>

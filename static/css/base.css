@@ -1,0 +1,104 @@
+@font-face {
+    font-family: SFPro;
+    src: url("../fonts/SF-Pro-Display-Regular.otf") format("opentype");
+}
+
+body {
+    font-family: SFPro;
+    padding-top: 5%;
+    padding-left: 20%;
+    padding-right: 20%;
+}
+
+a {
+    font-size: 28px;
+    text-decoration: none;
+}
+
+a:link {
+    color: black;
+}
+
+a:visited {
+    color: black;
+}
+
+a:hover {
+    color: grey; 
+}
+
+#text-body {
+    font-size: 24px;
+}
+
+
+.backlink {
+    font-size: 14px;
+}
+
+#inner {
+    display: table;
+    margin: 0 auto;
+}
+  
+#outer {
+    width:100%
+}
+
+.center {
+    margin: auto;
+}
+
+.text-entry {
+    margin: auto;
+    text-align: center;
+    vertical-align: middle;
+    margin-top: 10px;
+    padding-top: 10px;
+    line-height: 30px;
+    min-width: 250px;
+    max-width: 350px;
+    min-height: 30px;
+    border-radius: 20px;
+}
+
+button {
+    display:inline-block;
+    padding:0.3em 1.2em;
+    margin:0 0.3em 0.3em 0;
+    border-radius:2em;
+    box-sizing: border-box;
+    text-decoration:none;
+    font-family:'Roboto',sans-serif;
+    font-weight: 300;
+    color: black;
+    text-align:center;
+    transition: all 0.2s;
+}
+
+button:hover{
+    background-color:#4095c6;
+}
+
+@media all and (max-width:30em) {
+    button {
+        display:block;
+        margin:0.2em auto;
+    }
+}
+
+.login {
+    text-align: center;
+    display: flex; 
+    flex-direction: row;
+    justify-content: center;
+    align-items: center
+}
+
+#text-word-count {
+    font-size: 18px;
+}
+
+.login-title {
+    text-align: center;
+}

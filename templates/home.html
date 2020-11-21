@@ -1,0 +1,33 @@
+<html>
+    <head>
+        <title>Speech Collection - Home</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+    </head>
+
+    <body>
+        <div>
+            <p>Welcome, {{ current_user.email }} </p>
+
+            <div id="center">
+                {% for text_detail in text_details %}
+                <a href="/text/{{ text_detail.name }}">
+                    <div class="text-entry" style="background-color: {{ '#ffffff' if text_detail.name in user_recordings else '#cccccc' }}">
+                        <div>
+                            {{ text_detail.formatted_name }}
+                        </div>
+                        <div>
+                            <p id="text-word-count">
+                                {{ text_detail.word_count }} words
+                            </p>
+                        </div>
+                    </div>
+                    <br />
+                </a>
+                {% endfor %}
+            </div>
+
+            <a class="backlink" href='/logout'>&gt;Log Out</a>
+
+        </div>
+    </body>
+</html>

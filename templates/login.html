@@ -1,0 +1,36 @@
+<html>
+    <head>
+        <title>Speech Collection - Login</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+    </head>
+
+    <body>
+        <h1 class="login-title">Sign In</h1>
+        <div class="login">
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
+            <ul>
+                {% for message in messages %}
+                <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+            {% endwith %}
+            <form action="" method="post" novalidate>
+                {{ form.hidden_tag() }}
+                <p>
+                    {{ form.email.label }}<br>
+                    {{ form.email(size=32) }}
+                </p>
+                <p>
+                    {{ form.password.label }}<br>
+                    {{ form.password(size=32) }}
+                </p>
+                <p>{{ form.submit() }}</p>
+
+                <a class="backlink" href='/create_account'>Don't have an account? Create an account</a>
+            </form>
+        </div>
+      
+    </body>
+</html>
