@@ -65,4 +65,4 @@ def init_db():
 
 def init_dirs():
     Path("text").mkdir(parents=True, exist_ok=True)
-    Path("audio").mkdir(parents=True, exist_ok=True)
+    Path("data").mkdir(parents=True, exist_ok=True)

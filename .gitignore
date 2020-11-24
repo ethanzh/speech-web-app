@@ -1,4 +1,5 @@
 audio
+data
 text/**
 .DS_Store
 .vscode

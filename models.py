@@ -28,5 +28,5 @@ class User(BaseModel, UserMixin):
 
 class UserRecording(BaseModel):
     user = ForeignKeyField(User, backref="recordings")
-    audio_path = CharField()
+    audio_path = CharField(null=True)
     created_at = DateTimeField(default=datetime.now)

@@ -16,7 +16,7 @@ This is a simple web application to aid with collection of labelled speech sampl
 - [ ] Proper configuration secret storage
 - [ ] Ensure proper Flask app structure (blueprints, etc)
 - [ ] Test cases 
-- [ ] Store audio files in S3 or Google Cloud Storage 
+- [ ] Store audio/video files in S3 or Google Cloud Storage 
 - [ ] Better UI (possible transition to React)
 - [ ] Admin console (nice-to-have)
 
@@ -24,7 +24,7 @@ This is a simple web application to aid with collection of labelled speech sampl
 If you require additional text to generate speech samples from, simply add a new `txt` file in the `text/` directory
 
 ## Collecting Data
-All audio samples will be placed in a `audio/` directory, where each subdirectory is a user's UUID, and each file inside `audio/<user UUID>` is a file of form `<name of text>.wav`
+All audio/video samples will be placed in a `data/` directory, where each subdirectory is a user's UUID, and each file inside `data/<user UUID>` is a file of form `<name of text>.webm`
 
 ## Installation
 Simply clone this repo, install dependencies, and run the app with `gunicorn --bind 0.0.0.0:80 wsgi:app`
