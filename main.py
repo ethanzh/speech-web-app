@@ -18,6 +18,7 @@ from flask_login import (
 )
 import sqlite3
 import bcrypt
+import os
 
 
 from peewee import DoesNotExist
@@ -126,6 +127,12 @@ def logout():
     return redirect(url_for("login"))
 
 
+@app.route("/text/blank", methods=["GET"])
+@login_required
+def text_blank():
+    return render_template("blank_text.html")
+
+
 @app.route("/text/<string:text>", methods=["GET"])
 @login_required
 def text_detail(text):
@@ -146,8 +153,13 @@ def text_upload(text):
         return jsonify(success=False)
 
     Path(f"audio/{current_user.id}").mkdir(parents=True, exist_ok=True)
-    text_name = text.split(".")[0]
-    audio_data.save(f"audio/{current_user.id}/{current_user.email}_{text_name}.wav")
+    if text == "blank":
+        files = os.listdir(f"audio/{current_user.id}")
+        num_blanks = len([f for f in files if "blank" in f])
+        text_name = f"blank-{num_blanks + 1}"
+    else:
+        text_name = text.split(".")[0]
+    audio_data.save(f"audio/{current_user.id}/{text_name}.wav")
     UserRecording.create(user=current_user.id, audio_path=text)
 
     return jsonify(success=True)
