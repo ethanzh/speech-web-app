@@ -45,6 +45,8 @@ login_manager.init_app(app)
 init_db()
 init_dirs()
 
+DATA_DIR = "data"
+
 
 @login_manager.user_loader
 def user_loader(user_id):
@@ -148,19 +150,21 @@ def text_detail(text):
 @app.route("/text/<string:text>/upload", methods=["POST"])
 @login_required
 def text_upload(text):
-    audio_data = request.files.to_dict().get("audio_data")
-    if not audio_data:
+    data = request.files.to_dict().get("data")
+    if not data:
         return jsonify(success=False)
 
-    Path(f"audio/{current_user.id}").mkdir(parents=True, exist_ok=True)
+    Path(f"{DATA_DIR}/{current_user.id}").mkdir(parents=True, exist_ok=True)
     if text == "blank":
-        files = os.listdir(f"audio/{current_user.id}")
+        files = os.listdir(f"{DATA_DIR}/{current_user.id}")
         num_blanks = len([f for f in files if "blank" in f])
         text_name = f"blank-{num_blanks + 1}"
+        data.save(f"{DATA_DIR}/{current_user.id}/{text_name}.webm")
+        UserRecording.create(user=current_user.id, audio_path=None)
     else:
         text_name = text.split(".")[0]
-    audio_data.save(f"audio/{current_user.id}/{text_name}.wav")
-    UserRecording.create(user=current_user.id, audio_path=text)
+        data.save(f"{DATA_DIR}/{current_user.id}/{text_name}.wav")
+        UserRecording.create(user=current_user.id, audio_path=text)
 
     return jsonify(success=True)
 
