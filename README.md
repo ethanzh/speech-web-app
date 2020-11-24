@@ -12,9 +12,11 @@ This is a simple web application to aid with collection of labelled speech sampl
 - [x] Basic authentication 
 - [x] Upload `wav` file to Flask 
 - [x] Utilize proper HTTP server
-- [ ] Enable HTTPS so that `mediaDevices` can be accessed outside `localhost`
+- [x] Enable HTTPS so that `mediaDevices` can be accessed outside `localhost`
+- [x] Add support for video
 - [ ] Proper configuration secret storage
 - [ ] Ensure proper Flask app structure (blueprints, etc)
+- [ ] Add ability to toggle video on/off
 - [ ] Test cases 
 - [ ] Store audio/video files in S3 or Google Cloud Storage 
 - [ ] Better UI (possible transition to React)
