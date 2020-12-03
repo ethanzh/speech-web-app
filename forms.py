@@ -28,4 +28,23 @@ class CreateAccountForm(FlaskForm):
         choices=["Under 18", "18-25", "25-40", "40-60", "Above 60"],
         validators=[DataRequired()],
     )
+    language = SelectField(
+        "Language (Optional)",
+        default="English",
+        choices=[
+            None,
+            "Arabic",
+            "Chinese",
+            "English",
+            "French",
+            "German",
+            "Italian",
+            "Japanese",
+            "Polish",
+            "Russian",
+            "Spanish",
+            "Turkish",
+        ],
+        validators=[],
+    )
     submit = SubmitField("Create Account")
