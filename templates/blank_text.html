@@ -19,9 +19,16 @@
                 <button id="end" onclick="stopRecording()">End</button>
             </div>
         </div>
+        <div>
+            <a onclick="return deleteSample({{ sample_id }});">
+                Delete: {{ sample_id }}
+            </a>
+            {% endfor %}
+        </div>
         <a class="backlink" href="/home">&gt;All Texts</a>
     </body>
 
     <script src="{{ url_for('static', filename='js/audio.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/helpers.js') }}"></script>
     <script src="https://cdn.rawgit.com/mattdiamond/Recorderjs/08e7abd9/dist/recorder.js"></script>
 </html>

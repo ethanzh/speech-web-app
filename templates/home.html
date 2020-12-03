@@ -11,7 +11,7 @@
             <div id="center">
                 {% for text_detail in text_details %}
                 <a href="/text/{{ text_detail.name }}">
-                    <div class="text-entry" style="background-color: {{ '#ffffff' if text_detail.name in user_recordings else '#cccccc' }}">
+                    <div class="text-entry" style="background-color: {{ '#ffffff' if text_detail.name in user_samples else '#cccccc' }}">
                         <div>
                             {{ text_detail.formatted_name }}
                         </div>
@@ -25,7 +25,7 @@
                 </a>
                 {% endfor %}
 
-                <a href="/text/blank">
+                <a href="/blank">
                     <div class="text-entry" style="background-color: '#cccccc'">
                         <div>
                             Blank Recording

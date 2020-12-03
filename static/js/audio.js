@@ -157,6 +157,6 @@ function createDownloadLink(blob) {
     };
     var fd = new FormData();
     fd.append("data", blob, filename);
-    xhr.open("POST", "/text/blank/upload", true);
+    xhr.open("POST", "/sample", true);
     xhr.send(fd);
 }

@@ -1,9 +1,10 @@
 import os
 import sqlite3
-from models import db, User, UserRecording
+from models import db, User, UserSample
 from pathlib import Path
 from typing import Optional
 from flask import flash
+from flask_login import current_user
 from dataclasses import dataclass
 
 
@@ -49,6 +50,13 @@ def get_text_detail(text_name: str) -> Optional[TextDetail]:
     )
 
 
+def delete_sample(id: int):
+    sample = UserSample.get(id=id)
+    path = f"data/{current_user.id}/{sample.filename}"
+    os.remove(path)
+    sample.delete_instance()
+
+
 def get_all_text_details():
     text_details = []
     for t in os.listdir("text"):
@@ -60,7 +68,7 @@ def get_all_text_details():
 
 def init_db():
     db.connect()
-    db.create_tables([User, UserRecording])
+    db.create_tables([User, UserSample])
 
 
 def init_dirs():
