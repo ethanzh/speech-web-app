@@ -22,6 +22,7 @@ class User(BaseModel, UserMixin):
     email = CharField(unique=True)
     gender = CharField()
     age_range = CharField()
+    language = CharField(null=True)
     salted_pw = CharField()
     created_at = DateTimeField(default=datetime.now)
 

@@ -111,6 +111,7 @@ def create_account():
             salted_pw=hashed_salted_pw,
             gender=form.gender.data,
             age_range=form.age_range.data,
+            language=form.language.data,
         )
 
         login_user(new_user)
