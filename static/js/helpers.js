@@ -15,5 +15,8 @@ const deleteSample = sample_id => {
     method: 'DELETE',
     })
     .then(res => res.json())
-    .then(res => console.log(res))
+    .then(res => {
+      location.reload();
+      return false
+    })
 }

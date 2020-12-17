@@ -134,8 +134,13 @@ def logout():
 @app.route("/blank", methods=["GET"])
 @login_required
 def text_blank():
-    sample_ids = [s.id for s in current_user.samples if ".webm" in s.filename]
-    return render_template("blank_text.html", sample_ids=sample_ids)
+    samples = []
+    for sample in current_user.samples:
+        if ".webm" not in sample.filename:
+            continue
+
+        samples.append({"id": sample.id, "created_at": sample.created_at})
+    return render_template("blank_text.html", samples=samples)
 
 
 @app.route("/text/<string:text>", methods=["GET"])
