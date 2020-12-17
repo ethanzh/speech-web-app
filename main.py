@@ -161,6 +161,8 @@ def text_detail(text):
 def post_sample():
     data = request.files.to_dict().get("data")
     text = request.form.get("text")
+    audio_source = request.form.get("audio_source")
+    video_source = request.form.get("video_source")
     if not data:
         return jsonify(success=False)
 
@@ -179,7 +181,12 @@ def post_sample():
         path = f"{DATA_DIR}/{current_user.id}/{filename}"
 
     data.save(path)
-    UserSample.create(user=current_user.id, filename=filename)
+    UserSample.create(
+        user=current_user.id,
+        filename=filename,
+        audio_source=audio_source,
+        video_source=video_source,
+    )
 
     return jsonify(success=True)
 
