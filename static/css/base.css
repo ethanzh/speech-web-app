@@ -49,6 +49,10 @@ a:hover {
     margin: auto;
 }
 
+.deleteText {
+    font-size: 14px;
+}
+
 .text-entry {
     margin: auto;
     text-align: center;

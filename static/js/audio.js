@@ -60,11 +60,17 @@ function handleError(error) {
 
 const delay = ms => new Promise(res => setTimeout(res, ms));
 
+function cancelRecording() {
+    isCancelled = true;
+    stopRecording()
+}
+
 function stopRecording() {
     mediaRecorder.stop();
     audioSelect.disabled = false;
     videoSelect.disabled = false;
     startButton.disabled = false;
+    cancelButton.disabled = true;
     endButton.disabled = true;
 }
 
@@ -76,16 +82,20 @@ const audioSelect = document.querySelector("select#audioSource");
 const videoSelect = document.querySelector("select#videoSource");
 
 const startButton = document.querySelector("button#start")
+const cancelButton = document.querySelector("button#cancel")
 const endButton = document.querySelector("button#end")
+cancelButton.disabled = true;
 endButton.disabled = true;
 
 var mediaRecorder;
 var recordedChunks = [];
+var isCancelled = false;
 
 function startRecording() {
     audioSelect.disabled = true;
     videoSelect.disabled = true;
     startButton.disabled = true;
+    cancelButton.disabled = false;
     endButton.disabled = false;
 
     const constraints = {
@@ -117,11 +127,13 @@ function startRecording() {
             } else {}
         };
         mediaRecorder.onstop = e => {
+            if (isCancelled) {
+                isCancelled = false;
+                return
+            }
             let blob = new Blob(recordedChunks, {
                 'type': 'video/mp4'
             })
-            let videoURL = window.URL.createObjectURL(blob)
-
             createDownloadLink(blob)
             recordedChunks = []
         }
@@ -157,6 +169,6 @@ function createDownloadLink(blob) {
     };
     var fd = new FormData();
     fd.append("data", blob, filename);
-    xhr.open("POST", "/text/blank/upload", true);
+    xhr.open("POST", "/sample", true);
     xhr.send(fd);
 }

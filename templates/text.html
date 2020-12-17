@@ -99,7 +99,9 @@
                 };
                 var fd = new FormData();
                 fd.append("data", blob, filename);
-                xhr.open("POST", "/text/{{ text_detail.name }}/upload", true);
+                console.log("{{ text_detail.name }}")
+                fd.append("text", "{{ text_detail.name }}");
+                xhr.open("POST", "../sample", true);
                 xhr.send(fd);
             }
         </script>

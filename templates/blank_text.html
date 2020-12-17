@@ -16,12 +16,27 @@
             </div>
             <div>
                 <button id="start" onclick="startRecording()">Start</button>
+                <button id="cancel" onclick="cancelRecording()">Cancel</button>
                 <button id="end" onclick="stopRecording()">End</button>
             </div>
+        </div>
+        <div>
+            {% if samples|length > 0 %}
+            <ul>
+                {% for sample in samples %}
+                <li id="sample-{{ sample.id }}">
+                    <a onclick="return deleteSample({{ sample.id }});">
+                        <p id="sample-{{ sample.id }}" class="deleteText">Delete {{ sample.created_at }} recording</p>
+                    </a>
+                </li>
+                {% endfor %}
+            </ul>
+            {% endif %}
         </div>
         <a class="backlink" href="/home">&gt;All Texts</a>
     </body>
 
     <script src="{{ url_for('static', filename='js/audio.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/helpers.js') }}"></script>
     <script src="https://cdn.rawgit.com/mattdiamond/Recorderjs/08e7abd9/dist/recorder.js"></script>
 </html>

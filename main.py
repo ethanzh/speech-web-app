@@ -6,6 +6,7 @@ from flask import (
     flash,
     url_for,
     abort,
+    send_file,
     jsonify,
 )
 from flask_login import (
@@ -30,9 +31,10 @@ from helpers import (
     get_text_detail,
     format_email,
     flash_errors,
+    delete_sample,
 )
 from forms import LoginForm, CreateAccountForm
-from models import User, UserRecording
+from models import User, UserSample
 from config import Config
 import uuid
 
@@ -61,10 +63,10 @@ def home():
     if not (current_user and current_user.is_authenticated):
         return redirect(url_for("login"))
 
-    user_recordings = [ur.audio_path for ur in current_user.recordings]
+    user_samples = [ur.filename for ur in current_user.samples]
     return render_template(
         "home.html",
-        user_recordings=user_recordings,
+        user_samples=user_samples,
         text_details=get_all_text_details(),
     )
 
@@ -130,10 +132,16 @@ def logout():
     return redirect(url_for("login"))
 
 
-@app.route("/text/blank", methods=["GET"])
+@app.route("/blank", methods=["GET"])
 @login_required
 def text_blank():
-    return render_template("blank_text.html")
+    samples = []
+    for sample in current_user.samples:
+        if ".webm" not in sample.filename:
+            continue
+
+        samples.append({"id": sample.id, "created_at": sample.created_at})
+    return render_template("blank_text.html", samples=samples)
 
 
 @app.route("/text/<string:text>", methods=["GET"])
@@ -143,31 +151,49 @@ def text_detail(text):
         return redirect(url_for("home"))
 
     text_detail = get_text_detail(text)
-    status = text in [ur.audio_path for ur in current_user.recordings]
+    status = text in [ur.filename for ur in current_user.samples]
 
     return render_template("text.html", text_detail=text_detail, status=status)
 
 
-@app.route("/text/<string:text>/upload", methods=["POST"])
+@app.route("/sample", methods=["POST"])
 @login_required
-def text_upload(text):
+def post_sample():
     data = request.files.to_dict().get("data")
+    text = request.form.get("text")
     if not data:
         return jsonify(success=False)
 
     Path(f"{DATA_DIR}/{current_user.id}").mkdir(parents=True, exist_ok=True)
-    if text == "blank":
-        files = os.listdir(f"{DATA_DIR}/{current_user.id}")
-        num_blanks = len([f for f in files if "blank" in f])
-        text_name = f"blank-{num_blanks + 1}"
-        data.save(f"{DATA_DIR}/{current_user.id}/{text_name}.webm")
-        UserRecording.create(user=current_user.id, audio_path=None)
-    else:
+    if text:
         text_name = text.split(".")[0]
-        data.save(f"{DATA_DIR}/{current_user.id}/{text_name}.wav")
-        UserRecording.create(user=current_user.id, audio_path=text)
+        num_samples_for_text = len(
+            [s for s in current_user.samples if text_name in s.filename]
+        )
+        filename = f"{text_name}_{num_samples_for_text + 1}.wav"
+        path = f"{DATA_DIR}/{current_user.id}/{filename}"
+    else:
+        files = os.listdir(f"{DATA_DIR}/{current_user.id}")
+        num_blanks = len([f for f in files if ".webm" in f])
+        filename = f"{num_blanks + 1}.webm"
+        path = f"{DATA_DIR}/{current_user.id}/{filename}"
+
+    data.save(path)
+    UserSample.create(user=current_user.id, filename=filename)
 
     return jsonify(success=True)
+
+
+@app.route("/sample/<int:sample_id>", methods=["GET", "DELETE"])
+@login_required
+def handle_sample(sample_id=None):
+    if request.method == "GET":
+        sample = UserSample.get(id=sample_id)
+        return send_file(f"data/{current_user.id}/{sample.filename}")
+
+    elif request.method == "DELETE":
+        delete_sample(sample_id)
+        return jsonify(success=True)
 
 
 @app.errorhandler(404)
