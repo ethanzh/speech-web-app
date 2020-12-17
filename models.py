@@ -30,4 +30,6 @@ class User(BaseModel, UserMixin):
 class UserSample(BaseModel):
     user = ForeignKeyField(User, backref="samples")
     filename = CharField()
+    audio_source = CharField(null=True)
+    video_source = CharField(null=True)
     created_at = DateTimeField(default=datetime.now)

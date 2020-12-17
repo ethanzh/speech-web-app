@@ -21,6 +21,9 @@ function getStream() {
             track.stop();
         });
     }
+    currentAudioSourceValue = audioSelect.value
+    currentVideoSourceValue = videoSelect.value
+
     const constraints = {
         audio: {
             deviceId: {
@@ -90,6 +93,9 @@ endButton.disabled = true;
 var mediaRecorder;
 var recordedChunks = [];
 var isCancelled = false;
+
+let currentAudioSourceValue = null;
+let currentVideoSourceValue = null;
 
 function startRecording() {
     audioSelect.disabled = true;
@@ -168,7 +174,29 @@ function createDownloadLink(blob) {
         }
     };
     var fd = new FormData();
+
     fd.append("data", blob, filename);
+
+    let audioSourceName = null;
+    for (let i = 0; i < audioSelect.options.length; i++) {
+        const currentLoopValue = audioSelect.options[i].value
+        if (currentLoopValue === currentAudioSourceValue) {
+            audioSourceName = audioSelect.options[i].text;
+            break; 
+        }
+    }
+
+    let videoSourceName = null;
+    for (let i = 0; i < videoSelect.options.length; i++) {
+        const currentLoopValue = videoSelect.options[i].value
+        if (currentLoopValue === currentVideoSourceValue) {
+            videoSourceName = videoSelect.options[i].text;
+            break; 
+        }
+    }
+    console.log(audioSourceName, videoSourceName)
+    fd.append("audio_source", audioSourceName);
+    fd.append("video_source", videoSourceName);
     xhr.open("POST", "/sample", true);
     xhr.send(fd);
 }
