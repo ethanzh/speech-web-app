@@ -141,6 +141,7 @@ def text_blank():
             continue
 
         samples.append({"id": sample.id, "created_at": sample.created_at})
+    samples.reverse()
     return render_template("blank_text.html", samples=samples)
 
 
@@ -196,7 +197,8 @@ def post_sample():
 def handle_sample(sample_id=None):
     if request.method == "GET":
         sample = UserSample.get(id=sample_id)
-        return send_file(f"data/{current_user.id}/{sample.filename}")
+        path = f"data/{current_user.id}/{sample.filename}"
+        return send_file(path, as_attachment=True)
 
     elif request.method == "DELETE":
         delete_sample(sample_id)
@@ -209,4 +211,4 @@ def page_not_found(e):
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host="0.0.0.0", port=8888, debug=True)

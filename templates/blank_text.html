@@ -21,13 +21,19 @@
             </div>
         </div>
         <div>
+            <p>VLC Media Player is suggested to play webm files</p>
             {% if samples|length > 0 %}
             <ul>
                 {% for sample in samples %}
                 <li id="sample-{{ sample.id }}">
-                    <a onclick="return deleteSample({{ sample.id }});">
-                        <p id="sample-{{ sample.id }}" class="deleteText">Delete {{ sample.created_at }} recording</p>
-                    </a>
+                    <div>
+                        <a onclick="return downloadSample({{ sample.id }});">
+                            <p id="sample-{{ sample.id }}" class="downloadText">Download {{ sample.created_at }} recording</p>
+                        </a>
+                        <a onclick="return deleteSample({{ sample.id }});" download>
+                            <p id="sample-{{ sample.id }}" class="deleteText">Delete {{ sample.created_at }} recording</p>
+                        </a>
+                    </div>
                 </li>
                 {% endfor %}
             </ul>

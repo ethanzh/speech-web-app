@@ -1,12 +1,14 @@
 const downloadSample = sample_id => {
-    console.log(sample_id)
     fetch('sample/' + sample_id, {
     method: 'GET',
     })
     .then(res => res.blob())
     .then(blob => {
-      const file = window.URL.createObjectURL(blob);
-      window.location.assign(file);
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement('a')
+      link.href = url
+      link.download = `${sample_id}.webm`
+      link.click()
     });
 }
 
