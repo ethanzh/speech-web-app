@@ -15,6 +15,20 @@ function gotDevices(deviceInfos) {
     }
 }
 
+function chirp() {
+    var context = new (window.AudioContext ||
+        window.webkitAudioContext ||
+        window.mozAudioContext ||
+        window.oAudioContext ||
+        window.msAudioContext);
+    var oscillator = context.createOscillator();
+    var freq = 20000;
+    oscillator.frequency.value = freq;
+    oscillator.type = "sine";
+    oscillator.start(0);
+    oscillator.connect(context.destination);
+}
+
 function getStream() {
     if (window.stream) {
         window.stream.getTracks().forEach(function(track) {
