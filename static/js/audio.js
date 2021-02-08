@@ -26,8 +26,22 @@ function chirp() {
     oscillator.frequency.value = freq;
     oscillator.type = "sine";
     oscillator.start(0);
-    oscillator.connect(context.destination);
+
+    var oscillator2 = context.createOscillator();
+    var freq2 = 293.665;
+    oscillator2.frequency.value = freq2;
+    oscillator2.type = "sine";
+    oscillator2.start(0);
+
+    var merger = context.createChannelMerger(2);
+    merger.channelCountMode = "explicit";
+
+    oscillator.connect(merger, 0, 0);
+    oscillator2.connect(merger, 0, 1);
+
+    merger.connect(context.destination);
 }
+
 
 function getStream() {
     if (window.stream) {
