@@ -22,7 +22,7 @@ function chirp() {
         window.oAudioContext ||
         window.msAudioContext);
     var oscillator = context.createOscillator();
-    var freq = 20000;
+    var freq = 440;
     oscillator.frequency.value = freq;
     oscillator.type = "sine";
     oscillator.start(0);
@@ -117,6 +117,7 @@ function startRecording() {
     startButton.disabled = true;
     cancelButton.disabled = false;
     endButton.disabled = false;
+    chirp();
 
     const constraints = {
         audio: {
